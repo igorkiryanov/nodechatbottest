@@ -27,8 +27,8 @@ app.get('/webhook/', (req, res) => {
 function sendText(sender, text) {
   const messageData = { text };
   request({
-    url: process.env.FB_MESSAGE_URL,
-    qs: { access_token: process.env.FB_TOKEN },
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJXHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
     method: 'POST',
     json: {
       recipient: { id: sender },
