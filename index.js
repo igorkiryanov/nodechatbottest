@@ -16,14 +16,12 @@ app.get('/', (req, res) => {
   res.send("Hi, I'm chatbot!");
 });
 
-/* app.get('/webhook/', (req, res) => {
+app.get('/webhook/', (req, res) => {
   if (req.query['hub.verify_token'] === 'test') {
     return res.send(req.query['hub.challenge']);
   }
   return res.send('Wrong token!');
 });
 
-*/
-app.listen(process.env.PORT || 5000, () => {
-  console.log('Listening...');
+app.listen(app.get('port'), () => {
 });
