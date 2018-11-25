@@ -34,6 +34,12 @@ function sendText(sender, text) {
       recipient: { id: sender },
       message: messageData,
     },
+  }, (error, response) => {
+    if (error) {
+      console.log(error);
+    } else if (response.body.error) {
+      console.log(response.body.error);
+    }
   });
 }
 
