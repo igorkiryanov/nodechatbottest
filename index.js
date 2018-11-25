@@ -27,7 +27,7 @@ app.get('/webhook/', (req, res) => {
 function sendText(sender, text) {
   const messageData = { text };
   request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
+    url: 'https://graph.facebook.com/v3.2/me/messages',
     qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJXHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
     method: 'POST',
     json: {
@@ -38,13 +38,17 @@ function sendText(sender, text) {
 }
 
 app.post('/webhook/', (req, res) => {
-  const messagingEvents = req.body.entry[0].messaging;
-  for (let i = 0; i < messagingEvents.lenth; i += 1) {
-    const event = messagingEvents[i];
-    const sender = event.sender.id;
-    if (event.message && event.message.text) {
-      sendText(sender, `Echo text: ${event.message.text}`);
+  try {
+    const messagingEvents = req.body.entry[0].messaging;
+    for (let i = 0; i < messagingEvents.lenth; i += 1) {
+      const event = messagingEvents[i];
+      const sender = event.sender.id;
+      if (event.message && event.message.text) {
+        sendText(sender, `Echo text: ${event.message.text}`);
+      }
     }
+  } catch (err) {
+    console.error.log(err);
   }
   res.status(200);
 });
