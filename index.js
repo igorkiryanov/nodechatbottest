@@ -1,5 +1,5 @@
 const express = require('express');
-const request = require('request');
+// const request = require('request');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -26,9 +26,13 @@ app.get('/webhook/', (req, res) => {
 
 function sendText(sender, text) {
   const messageData = { text };
+  return messageData;
+  /*
   request({
     url: 'https://graph.facebook.com/v3.2/me/messages',
-    qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJXHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
+    qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh
+    1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJ
+    XHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
     method: 'POST',
     json: {
       recipient: { id: sender },
@@ -41,6 +45,7 @@ function sendText(sender, text) {
       console.log(response.body.error);
     }
   });
+  */
 }
 
 app.post('/webhook/', (req, res) => {
