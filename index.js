@@ -1,5 +1,5 @@
 const express = require('express');
-// const request = require('request');
+const request = require('request');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -26,40 +26,26 @@ app.get('/webhook/', (req, res) => {
 
 function sendText(sender, text) {
   const messageData = { text };
-  return messageData;
-  /*
   request({
     url: 'https://graph.facebook.com/v3.2/me/messages',
-    qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh
-    1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJ
-    XHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
+    qs: { access_token: 'EAAEtYgj66KkBAMzfWMC8c1d91TUJ4QYjc9hcL0yJTh1OrgZCttHlooEAxIH5bUVRAp3pHwOuDfIW7ITygsZC2PXLJtZBasRRJXHvjFi1cimG67wxyZACtIH5API1CK91FjlYTQFF1RFyUn6WLGyzhnbEImaYQknzhIYrPhfJo7bZB8BMtqLoo' },
     method: 'POST',
     json: {
       recipient: { id: sender },
       message: messageData,
     },
-  }, (error, response) => {
-    if (error) {
-      console.log(error);
-    } else if (response.body.error) {
-      console.log(response.body.error);
-    }
   });
-  */
 }
 
 app.post('/webhook/', (req, res) => {
-  try {
-    const messagingEvents = req.body.entry[0].messaging;
-    for (let i = 0; i < messagingEvents.lenth; i += 1) {
-      const event = messagingEvents[i];
-      const sender = event.sender.id;
-      if (event.message && event.message.text) {
-        sendText(sender, `Echo text: ${event.message.text}`);
-      }
+  const messagingEvents = req.body.entry[0].messaging;
+  for (let i = 0; i < messagingEvents.length; i += 1) {
+    const event = messagingEvents[i];
+    const sender = event.sender.id;
+    if (event.message && event.message.text) {
+      sendText(sender, `Echo text: ${event.message.text}`);
+      res.send(event.message.text);
     }
-  } catch (err) {
-    console.error.log(err);
   }
   res.status(200);
 });
