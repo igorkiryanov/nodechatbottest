@@ -13,7 +13,7 @@ router
     return res.status(errors.wrong_token.code).send(errors.wrong_token.message);
   })
   .post((req, res) => {
-    if (req.body.entry && req.body.entry.length > 1 && req.body.entry[0].messaging) {
+    if (req.body.entry && req.body.entry.length > 0 && req.body.entry[0].messaging) {
       for (let i = 0; i < req.body.entry[0].messaging.length; i += 1) {
         facebookService.sendMessage(req.body.entry[0].messaging[i]);
       }
@@ -21,7 +21,7 @@ router
     }
     return res
       .status(errors.wrong_message_body_fb.code)
-      .message(errors.wrong_message_body_fb.message);
+      .send(errors.wrong_message_body_fb.message);
   });
 
 module.exports = router;
