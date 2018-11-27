@@ -21,6 +21,6 @@ function sendMessage(event, res) {
   }
 }
 
-exports = {
+module.exports = {
   sendMessage,
 };

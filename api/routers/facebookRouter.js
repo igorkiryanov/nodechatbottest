@@ -15,7 +15,7 @@ router
   .post((req, res) => {
     if (req.body.entry && req.body.entry.length > 0 && req.body.entry[0].messaging) {
       for (let i = 0; i < req.body.entry[0].messaging.length; i += 1) {
-        facebookService.sendMessage(req.body.entry[0].messaging[i]);
+        facebookService.sendMessage(req.body.entry[0].messaging[i], res);
       }
       return res.status(200);
     }
