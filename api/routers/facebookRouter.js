@@ -1,6 +1,6 @@
 const express = require('express');
 const facebookService = require('../service/facebookService');
-const errors = require('./../errors/errors').default;
+const errors = require('../errors/errors');
 
 const router = express.Router();
 
