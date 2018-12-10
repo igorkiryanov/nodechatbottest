@@ -7,7 +7,7 @@ const router = express.Router();
 router
   .route('/')
   .get((req, res) => {
-    if (req.query[process.env.FB_VERIFY_TOKEN_KEY] === process.env.FB_SECRET) {
+    if (req.query[process.env.FB_VERIFY_TOKEN_KEY] === process.env.FB_VERIFY_TOKEN) {
       return res.send(req.query[process.env.FB_TOKEN_SUCCESS_KEY]);
     }
     return res.status(errors.wrong_token.code).send(errors.wrong_token.message);
