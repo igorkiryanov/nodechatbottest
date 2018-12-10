@@ -1,6 +1,8 @@
 const BootBot = require('bootbot');
-const chrono = require('chrono-node');
-const persistentMenu = require('../modules/facebookBotPersistentMenu');
+// const chrono = require('chrono-node');
+const persistentMenu = require('../modules/facebook/persistentMenu');
+const nlpService = require('../service/nlpService');
+const reminderService = require('../service/reminderService');
 // const schedule = require('node-schedule');
 require('dotenv').config();
 
@@ -19,46 +21,20 @@ bot.setGetStartedButton((payload, chat) => {
 bot.module(persistentMenu);
 
 bot.on('message', (payload, chat, data) => {
-  const messageText = payload.message.text;
-  if (data.captured) { return; }
-  chat.say(`Echo: ${messageText}`);
-});
-
-bot.hear(['hello', 'hey', 'sup'], (payload, chat) => {
-  chat.getUserProfile().then((user) => {
-    chat.say(`Hey ${user.first_name}, How are you today?`);
-  });
-});
-
-bot.hear('create', (payload, chat) => {
-  chat.conversation((convo) => {
-    convo.ask("What would you like your reminder to be? etc 'I have an appointment tomorrow from 10 to 11 AM' the information will be added automatically", (cPayload/* , cConvo */) => { // 1
-      const datetime = chrono.parseDate(cPayload.message.text); // 2
-      const params = {
-        write_key: '111', // config.bucket.write_key,
-        type_slug: 'reminders',
-        title: cPayload.message.text,
-        metafields: [
-          {
-            key: 'date',
-            type: 'text',
-            value: datetime,
-          },
-        ],
-      }; // 3
-      console.log(JSON.stringify(params));
-      /*
-      Cosmic.addObject(config, params, (error, response) => { // 4
-        if (!error) {
-          eventEmitter.emit('new', response.object.slug, datetime); // 5
-          cConvo.say('reminder added correctly :)');
-          cConvo.end();
-        } else {
-          cConvo.say('there seems to be a problem. . .');
-          cConvo.end();
-        }
-      });
-      */
+  if (payload.message && payload.message.quick_reply) {
+    return;
+  }
+  nlpService.handleMessage(payload, chat, data, (err, nlpResults) => {
+    if (err) {
+      chat.say(`Sorry, error with NLP service:\n${err}`);
+      return;
+    }
+    reminderService.handleIntents(nlpResults, (rErr, reminderResult) => {
+      if (rErr) {
+        chat.say(`Sorry, error with reminder service:\n${rErr}`);
+        return;
+      }
+      chat.say(JSON.stringify(reminderResult));
     });
   });
 });

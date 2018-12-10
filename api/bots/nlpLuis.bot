@@ -1,0 +1,25 @@
+{
+  "name": "LuisBot",
+  "services": [
+    {
+      "type": "endpoint",
+      "name": "development",
+      "endpoint": "http://localhost:3000/api/messages",
+      "appId": "",
+      "appPassword": "",
+      "id": "1"
+    },
+    {
+      "type": "luis",
+      "name": "LuisBot",
+      "appId": "74059729-3abb-4b71-82d6-06d36b6214d8",
+      "authoringKey": "",
+      "subscriptionKey": "270feb6948954ab4a974983106ab2041",
+      "version": "2.0",
+      "region": "westus",
+      "id": "34"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
+}
