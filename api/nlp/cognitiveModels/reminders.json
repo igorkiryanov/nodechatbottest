@@ -1,0 +1,137 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "Node Chatbot test old",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "CreateReminder"
+    },
+    {
+      "name": "DeleteReminder"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "ShowReminders"
+    }
+  ],
+  "entities": [
+    {
+      "name": "ShowReminders",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [
+    {
+      "pattern": "{ShowReminders} all reminders",
+      "intent": "ShowReminders"
+    },
+    {
+      "pattern": "please create a reminder for {datetimeV2}",
+      "intent": "CreateReminder"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "add reminder tomorrow 8am",
+      "intent": "CreateReminder",
+      "entities": []
+    },
+    {
+      "text": "cancel reminder for today 9pm",
+      "intent": "DeleteReminder",
+      "entities": []
+    },
+    {
+      "text": "create reminder 11/29/2018 at 6 am",
+      "intent": "CreateReminder",
+      "entities": []
+    },
+    {
+      "text": "delete reminder at 8am",
+      "intent": "DeleteReminder",
+      "entities": []
+    },
+    {
+      "text": "i have an appointment tomorrow at 14",
+      "intent": "CreateReminder",
+      "entities": []
+    },
+    {
+      "text": "i have appointment at 7 am",
+      "intent": "CreateReminder",
+      "entities": []
+    },
+    {
+      "text": "list of reminders please",
+      "intent": "ShowReminders",
+      "entities": [
+        {
+          "entity": "ShowReminders",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "remove reminder for tomorrow 8am",
+      "intent": "DeleteReminder",
+      "entities": []
+    },
+    {
+      "text": "show me all reminders",
+      "intent": "ShowReminders",
+      "entities": [
+        {
+          "entity": "ShowReminders",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "show me appointments",
+      "intent": "ShowReminders",
+      "entities": [
+        {
+          "entity": "ShowReminders",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "show me please reminders",
+      "intent": "ShowReminders",
+      "entities": [
+        {
+          "entity": "ShowReminders",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "today i have a meeting at 8 am",
+      "intent": "CreateReminder",
+      "entities": []
+    }
+  ],
+  "settings": []
+}

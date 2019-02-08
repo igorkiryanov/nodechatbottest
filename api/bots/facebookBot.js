@@ -1,8 +1,9 @@
 const BootBot = require('bootbot');
+const nlpService = require('../../service/nlpService');
+const reminderService = require('../../service/reminderService');
+const reminderModule = require('./modules/facebook/reminder');
+const errorHandlerService = require('../../service/errorHandlerService');
 // const chrono = require('chrono-node');
-const persistentMenu = require('../modules/facebook/persistentMenu');
-const nlpService = require('../service/nlpService');
-const reminderService = require('../service/reminderService');
 // const schedule = require('node-schedule');
 require('dotenv').config();
 
@@ -12,35 +13,16 @@ const bot = new BootBot({
   appSecret: process.env.FB_APP_SECRET,
 });
 
-bot.setGreetingText("Hello, I'm here to help you manage your tasks. Be sure to setup your bucket by typing 'Setup'. ");
+bot.module(reminderModule);
 
-bot.setGetStartedButton((payload, chat) => {
-  chat.say('Hello my name is Node Chatbot Test and I can create a reminders for you!');
-});
-
-bot.module(persistentMenu);
-
-bot.on('message', (payload, chat, data) => {
-  if (payload.message && payload.message.quick_reply) {
-    return;
+async function start() {
+  try {
+    await nlpService.init();
+    await reminderService.init();
+  } catch (e) {
+    errorHandlerService.handle(e);
   }
-  nlpService.handleMessage(payload, chat, data, (err, nlpResults) => {
-    if (err) {
-      chat.say(`Sorry, error with NLP service:\n${err}`);
-      return;
-    }
-    reminderService.handleIntents(nlpResults, (rErr, reminderResult) => {
-      if (rErr) {
-        chat.say(`Sorry, error with reminder service:\n${rErr}`);
-        return;
-      }
-      chat.say(JSON.stringify(reminderResult));
-    });
-  });
-});
-
-function start() {
-  bot.start();
+  bot.start(process.env.LOCAL_PORT);
 }
 
 module.exports = { start };
